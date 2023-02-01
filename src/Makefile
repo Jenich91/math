@@ -1,6 +1,6 @@
 OS := $(shell uname -s)
 FLAGS = -Wall -Werror -Wextra
-FILES = s21_math.c
+FILES = sfleta_math.c
 OPEN:= open
 
 UNAME_S := $(shell uname -s)
@@ -21,22 +21,22 @@ endif
 
 default: all
 gcov_report:
-	gcc $(FLAGS) --coverage s21_test.c $(FILES) -o test_gcov $(CHECK_FLAGS)
+	gcc $(FLAGS) --coverage sfleta_test.c $(FILES) -o test_gcov $(CHECK_FLAGS)
 	./test_gcov
 	lcov -t test_gcov -o coverage.info -c -d .
 	genhtml -o report coverage.info
 	$(OPEN) report/index.html
 
-all: clean s21_math.a test
-s21_math.a: s21_math.o
-	ar rcs s21_math.a s21_math.o
-	ranlib s21_math.a
-test: s21_math.a
-	gcc  -o test s21_test.c s21_math.a $(CHECK_FLAGS)
+all: clean sfleta_math.a test
+sfleta_math.a: sfleta_math.o
+	ar rcs sfleta_math.a sfleta_math.o
+	ranlib sfleta_math.a
+test: sfleta_math.a
+	gcc  -o test sfleta_test.c sfleta_math.a $(CHECK_FLAGS)
 	./test
 
-s21_math.o: s21_math.c
-	gcc  -c -o s21_math.o s21_math.c
+sfleta_math.o: sfleta_math.c
+	gcc  -c -o sfleta_math.o sfleta_math.c
 
 check: test
 	cppcheck *.h *.c
